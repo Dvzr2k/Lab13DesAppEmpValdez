@@ -9,7 +9,7 @@ using Lab13DesAppEmpValdez.Models;
 
 namespace Lab13DesAppEmpValdez.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
@@ -21,6 +21,8 @@ namespace Lab13DesAppEmpValdez.Controllers
         }
 
         // GET: api/Students
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
@@ -29,6 +31,18 @@ namespace Lab13DesAppEmpValdez.Controllers
               return NotFound();
           }
             return await _context.Students.ToListAsync();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudents8(string? FirstName, string? LastName, string? Email)
+        {
+            if (_context.Students == null)
+            {
+                return NotFound();
+            }
+            return await _context.Students.Where(x => x.FirstName.Contains(FirstName) ||  x.LastName.Contains(LastName) || x.Email.Contains(Email))
+                .OrderByDescending(x => x.LastName)
+                .ToListAsync();
         }
 
         // GET: api/Students/5

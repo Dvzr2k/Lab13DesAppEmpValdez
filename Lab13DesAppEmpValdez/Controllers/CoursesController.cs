@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Lab13DesAppEmpValdez.Models;
+using System.Diagnostics;
 
 namespace Lab13DesAppEmpValdez.Controllers
 {
@@ -83,10 +84,9 @@ namespace Lab13DesAppEmpValdez.Controllers
             {
                 return NotFound();
             }
-
-            _context.Courses.Remove(course);
+            course.IsActive = false;
+            _context.Entry(course).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 

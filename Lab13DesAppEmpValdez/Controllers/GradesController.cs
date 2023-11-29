@@ -83,8 +83,8 @@ namespace Lab13DesAppEmpValdez.Controllers
             {
                 return NotFound();
             }
-
-            _context.Grades.Remove(grade);
+            grade.IsActive = false;
+            _context.Entry(grade).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
